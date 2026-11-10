@@ -7,7 +7,13 @@ import { ProgressRing } from './ProgressRing'
 
 vi.mock('@/lib/celebrate', () => ({ celebrate: vi.fn() }))
 
-const task = (id: string, done: boolean) => ({ id, title: id, done, createdAt: 1 })
+const task = (id: string, done: boolean) => ({
+  id,
+  title: id,
+  done,
+  createdAt: 1,
+  assignee: null,
+})
 
 describe('ProgressRing', () => {
   it('shows done of total as text and label', () => {

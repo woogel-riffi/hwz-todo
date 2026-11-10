@@ -1,6 +1,14 @@
 import { useCallback, useEffect, useState } from 'react'
 import { CURRENT_VERSION, loadState, saveState } from '@/lib/storage'
-import { addTask, removeTask, restoreTask, toggleTask, type Task } from './model'
+import {
+  addTask,
+  assignTask,
+  removeTask,
+  restoreTask,
+  toggleTask,
+  type FamilyMember,
+  type Task,
+} from './model'
 
 export function useTasks() {
   const [tasks, setTasks] = useState<Task[]>(() => loadState().tasks)
@@ -23,5 +31,11 @@ export function useTasks() {
     [tasks],
   )
 
-  return { tasks, add, toggle, remove }
+  const assign = useCallback(
+    (id: string, assignee: FamilyMember | null) =>
+      setTasks((prev) => assignTask(prev, id, assignee)),
+    [],
+  )
+
+  return { tasks, add, toggle, remove, assign }
 }

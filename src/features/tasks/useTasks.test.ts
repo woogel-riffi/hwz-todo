@@ -34,3 +34,21 @@ describe('useTasks', () => {
     expect(result.current.tasks.map((t) => t.title)).toEqual(['b', 'a'])
   })
 })
+
+describe('useTasks assign', () => {
+  it('assigns a person and keeps it after a reload', () => {
+    const { result, unmount } = renderHook(() => useTasks())
+    act(() => result.current.add('Einkaufen'))
+    const id = result.current.tasks[0].id
+    act(() => result.current.assign(id, 'Sophie'))
+    act(() => result.current.assign(id, 'Lisa'))
+    expect(result.current.tasks[0].assignee).toBe('Lisa')
+    unmount()
+
+    expect(loadState().tasks[0].assignee).toBe('Lisa')
+    const reloaded = renderHook(() => useTasks())
+    expect(reloaded.result.current.tasks[0].assignee).toBe('Lisa')
+    act(() => reloaded.result.current.assign(id, null))
+    expect(loadState().tasks[0].assignee).toBeNull()
+  })
+})

@@ -3,13 +3,15 @@ import { toast } from 'sonner'
 import { ProgressRing } from '@/components/ProgressRing'
 import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { DelegatedColumn } from '@/features/tasks/components/DelegatedColumn'
 import { EmptyState } from '@/features/tasks/components/EmptyState'
 import { TaskInput } from '@/features/tasks/components/TaskInput'
 import { TaskList } from '@/features/tasks/components/TaskList'
+import { splitTasks } from '@/features/tasks/model'
 import { useTasks } from '@/features/tasks/useTasks'
 
 export default function App() {
-  const { tasks, add, toggle, remove } = useTasks()
+  const { tasks, add, toggle, remove, assign } = useTasks()
 
   function handleRemove(id: string) {
     const restore = remove(id)
@@ -20,6 +22,7 @@ export default function App() {
     })
   }
 
+  const { mine, delegated } = splitTasks(tasks)
   const doneCount = tasks.filter((t) => t.done).length
   const today = new Intl.DateTimeFormat('de-CH', {
     weekday: 'long',
@@ -30,7 +33,7 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <TooltipProvider>
-        <main className="mx-auto flex min-h-dvh w-full max-w-3xl flex-col gap-8 px-4 py-10 sm:px-6 sm:py-16">
+        <main className="mx-auto flex min-h-dvh w-full max-w-6xl flex-col gap-8 px-4 py-10 sm:px-6 sm:py-16">
           <header className="flex items-center justify-between gap-6">
             <div className="min-w-0">
               <h1 className="text-gradient font-heading text-4xl font-bold tracking-tight sm:text-6xl">
@@ -40,12 +43,27 @@ export default function App() {
             </div>
             <ProgressRing done={doneCount} total={tasks.length} />
           </header>
-          <TaskInput onAdd={add} />
-          {tasks.length === 0 ? (
-            <EmptyState />
-          ) : (
-            <TaskList tasks={tasks} onToggle={toggle} onRemove={handleRemove} />
-          )}
+          <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2">
+            <section aria-label="Meine Liste" className="flex min-w-0 flex-col gap-6">
+              <TaskInput onAdd={add} />
+              {mine.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <TaskList
+                  tasks={mine}
+                  onToggle={toggle}
+                  onRemove={handleRemove}
+                  onAssign={assign}
+                />
+              )}
+            </section>
+            <DelegatedColumn
+              tasks={delegated}
+              onToggle={toggle}
+              onRemove={handleRemove}
+              onAssign={assign}
+            />
+          </div>
         </main>
         <Toaster position="bottom-center" richColors closeButton />
       </TooltipProvider>

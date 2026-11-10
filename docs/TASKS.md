@@ -50,3 +50,39 @@ Format je Task:
 - Dateien: src/components/ProgressRing.tsx, src/components/ProgressRing.test.tsx, src/features/tasks/components/EmptyState.tsx, src/App.tsx.
 - Test zuerst: Ring hat bei 3 Aufgaben mit 1 erledigten das aria-label «1 von 3 erledigt»; leere Liste zeigt «Alles erledigt. Zeit für Kaffee.».
 - Fertig wenn: «Zähler» und «Leerer Zustand» erfüllt (DESIGN.md, Rezepte 1 und 5), npm run check grün.
+
+[x] 7  Migration mit Test
+- Ziel: Gespeicherte Aufgaben aus Version 1 laden als Version 2 mit `assignee: null`, nichts geht verloren.
+- Dateien: src/lib/storage.ts, src/lib/storage.test.ts, src/features/tasks/model.ts, src/features/tasks/model.test.ts.
+- Test zuerst: Echte Version-1-Daten im localStorage ergeben nach loadState dieselben Aufgaben mit `assignee: null` und `version: 2`; ein unbekannter Name wird zu `null`.
+- Fertig wenn: «Alte Daten» erfüllt, npm run check grün.
+
+[x] 8  Zuordnen im Model und Hook
+- Ziel: Eine Aufgabe lässt sich einer Person zuordnen, neu zuordnen und freigeben, gespeichert im localStorage.
+- Dateien: src/features/tasks/model.ts, src/features/tasks/model.test.ts, src/features/tasks/useTasks.ts, src/features/tasks/useTasks.test.ts.
+- Test zuerst: assignTask setzt «Sophie», dann «Phil» ersetzt sie, `null` entfernt sie; nach erneutem Rendern des Hooks steht die Person noch da.
+- Fertig wenn: «Nach dem Neuladen» im Hook getestet, npm run check grün.
+
+[x] 9  Seifenblasen und Zauberstab
+- Ziel: Eine Blasen-Ebene zeigt sechs aufsteigende Namens-Blasen mit Zauberstab-Zeiger, Klick platzt die Blase und meldet den Namen.
+- Dateien: DESIGN.md, docs/STACK.md, src/index.css, src/features/tasks/components/DelegateBubbles.tsx, src/features/tasks/components/DelegateBubbles.test.tsx.
+- Test zuerst: Es gibt sechs Knöpfe mit den Namen; Klick auf «Sophie» ruft onPick mit «Sophie» auf; Esc und Klick daneben rufen onClose auf; die Ebene hat die Klasse `cursor-wand`; Tab und Enter wählen eine Blase.
+- Fertig wenn: «Blasen steigen auf», «Zauberstab», «Abbrechen» und «Tastatur und ruhige Bewegung» erfüllt (neues DESIGN.md-Rezept 10), npm run check grün.
+
+[x] 10  Delegieren auf der Karte
+- Ziel: Knopf «Delegieren» auf jeder Karte öffnet die Blasen; der gewählte Name erscheint als Abzeichen mit ×.
+- Dateien: src/features/tasks/components/TaskCard.tsx, src/features/tasks/components/TaskCard.test.tsx, src/features/tasks/components/TaskList.tsx, src/App.tsx.
+- Test zuerst: «Delegieren» klicken, dann «Sophie» zeigt das Abzeichen «Sophie»; erneut delegieren an «Phil» ersetzt es; × entfernt es; nach neuem Rendern der App steht die Person noch da.
+- Fertig wenn: «Blase platzt und ordnet zu», «Neu delegieren», «Zuordnung entfernen» und «Nach dem Neuladen» erfüllt, npm run check grün.
+
+[x] 11  Aufteilen im Model
+- Ziel: Eine reine Funktion trennt eigene und delegierte Aufgaben, die Reihenfolge bleibt erhalten.
+- Dateien: src/features/tasks/model.ts, src/features/tasks/model.test.ts.
+- Test zuerst: splitTasks legt Aufgaben mit Person in `delegated` und ohne Person in `mine`, beide in der ursprünglichen Reihenfolge.
+- Fertig wenn: Funktion getestet, npm run check grün.
+
+[x] 12  Spalte «Delegiert»
+- Ziel: Neben der Liste steht die Spalte «Delegiert 😄»; delegierte Aufgaben wandern dorthin und mit × zurück.
+- Dateien: src/features/tasks/components/DelegatedColumn.tsx, src/features/tasks/components/DelegatedColumn.test.tsx, src/App.tsx.
+- Test zuerst: Spalte mit Titel «Delegiert 😄» und Hinweis «Noch nichts delegiert.»; Delegieren an Sophie verschiebt die Karte in die Spalte; × holt sie zurück; Abhaken und Löschen in der Spalte funktionieren; nach erneutem Rendern steht sie noch in der Spalte.
+- Fertig wenn: «Zweite Spalte», «Verschieben beim Delegieren», «Zurück beim Entfernen», «Bedienbar in der Spalte», «Leere Spalte», «Schmales Fenster» und «Nach dem Neuladen» erfüllt (DESIGN.md, Rezepte 1 und 6), npm run check grün.

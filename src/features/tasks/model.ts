@@ -1,10 +1,18 @@
 export const MAX_TITLE_LENGTH = 200
 
+export const FAMILY = ['Phil', 'Harvey', 'Sophie', 'Lisa', 'MogliTheCat', 'Wichtel'] as const
+export type FamilyMember = (typeof FAMILY)[number]
+
+export function isFamilyMember(value: unknown): value is FamilyMember {
+  return typeof value === 'string' && (FAMILY as readonly string[]).includes(value)
+}
+
 export type Task = {
   id: string // crypto.randomUUID()
   title: string // trimmed, 1 to 200 characters
   done: boolean
   createdAt: number // Date.now()
+  assignee: FamilyMember | null // null = not delegated
 }
 
 export type RemovedTask = { task: Task; index: number }
@@ -16,7 +24,7 @@ export function addTask(
 ): Task[] {
   const clean = title.trim().slice(0, MAX_TITLE_LENGTH)
   if (clean === '') return tasks
-  return [{ id, title: clean, done: false, createdAt: now }, ...tasks]
+  return [{ id, title: clean, done: false, createdAt: now, assignee: null }, ...tasks]
 }
 
 export function toggleTask(tasks: Task[], id: string): Task[] {
@@ -36,4 +44,17 @@ export function restoreTask(tasks: Task[], task: Task, index: number): Task[] {
   if (tasks.some((t) => t.id === task.id)) return tasks
   const at = Math.min(Math.max(index, 0), tasks.length)
   return [...tasks.slice(0, at), task, ...tasks.slice(at)]
+}
+
+/** Delegates a task to a family member, or removes the delegation with `null`. */
+export function assignTask(tasks: Task[], id: string, assignee: FamilyMember | null): Task[] {
+  return tasks.map((t) => (t.id === id ? { ...t, assignee } : t))
+}
+
+/** My own tasks and the delegated ones, each in their original order. */
+export function splitTasks(tasks: Task[]): { mine: Task[]; delegated: Task[] } {
+  return {
+    mine: tasks.filter((t) => t.assignee === null),
+    delegated: tasks.filter((t) => t.assignee !== null),
+  }
 }

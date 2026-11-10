@@ -571,6 +571,7 @@ describe('App', () => {
   --animate-shake: shake 0.4s var(--ease-out-soft);
   --animate-pop: pop 0.35s var(--ease-spring);
   --animate-mesh: mesh 24s ease-in-out infinite alternate;
+  --animate-float: float 3s ease-in-out infinite;
 
   @keyframes shake {
     0%, 100% { transform: translateX(0); }
@@ -583,6 +584,10 @@ describe('App', () => {
     0% { transform: scale(0.6); }
     60% { transform: scale(1.15); }
     100% { transform: scale(1); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
   }
   @keyframes mesh {
     0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
@@ -850,4 +855,31 @@ describe('App', () => {
   transition-duration: var(--duration-base);
   transition-timing-function: var(--ease-out-soft);
 }
+
+/* Seifenblase für F1 Delegieren (Rezept 10): hellblau durchscheinend, mit Glanzpunkt */
+@utility bubble {
+  background:
+    radial-gradient(circle at 30% 25%, rgb(255 255 255 / 0.95) 0 9%, transparent 10%),
+    radial-gradient(
+      circle at 50% 55%,
+      rgb(224 242 255 / 0.55) 0%,
+      rgb(190 226 255 / 0.5) 60%,
+      rgb(125 196 255 / 0.55) 100%
+    );
+  border: 2px solid rgb(125 196 255 / 0.9);
+  box-shadow:
+    inset 0 -6px 14px rgb(125 196 255 / 0.45),
+    0 10px 24px -12px rgb(56 140 220 / 0.45);
+  backdrop-filter: blur(2px);
+}
+
+/* Zauberstab als Mauszeiger, solange die Seifenblasen offen sind (Rezept 10) */
+@utility cursor-wand {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M9 9 29 29' stroke='%231e2a47' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M9 9 13 13' stroke='%23ffffff' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M6 .5 7.6 4.4 11.8 4.6 8.5 7.2 9.6 11.3 6 9 2.4 11.3 3.5 7.2.2 4.6 4.4 4.4Z' fill='%23ffb800' stroke='%23c2410c' stroke-width='1'/%3E%3C/svg%3E") 6 6, pointer;
+
+  & * {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M9 9 29 29' stroke='%231e2a47' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M9 9 13 13' stroke='%23ffffff' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M6 .5 7.6 4.4 11.8 4.6 8.5 7.2 9.6 11.3 6 9 2.4 11.3 3.5 7.2.2 4.6 4.4 4.4Z' fill='%23ffb800' stroke='%23c2410c' stroke-width='1'/%3E%3C/svg%3E") 6 6, pointer;
+  }
+}
+
 ```

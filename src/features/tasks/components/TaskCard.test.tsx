@@ -14,7 +14,13 @@ Element.prototype.setPointerCapture ??= vi.fn()
 Element.prototype.releasePointerCapture ??= vi.fn()
 Element.prototype.hasPointerCapture ??= vi.fn(() => false)
 
-const task = (id: string, title: string, done = false): Task => ({ id, title, done, createdAt: 1 })
+const task = (id: string, title: string, done = false): Task => ({
+  id,
+  title,
+  done,
+  createdAt: 1,
+  assignee: null,
+})
 const noop = () => {}
 
 function renderCard(t: Task) {
@@ -98,5 +104,45 @@ describe('checking off and deleting', () => {
       ]),
     )
     expect(loadState().tasks.map((t) => t.id)).toEqual(['a', 'b', 'c'])
+  })
+})
+
+describe('delegating on the card', () => {
+  it('assigns via bubble, reassigns, removes, and keeps it after reload', async () => {
+    const user = userEvent.setup()
+    saveState({ version: CURRENT_VERSION, tasks: [task('a', 'Einkaufen')] })
+    const { unmount } = render(<App />)
+
+    await user.click(screen.getByRole('button', { name: '«Einkaufen» delegieren' }))
+    expect(screen.getByRole('dialog', { name: 'Aufgabe delegieren' })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Sophie' }))
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
+    expect(screen.getByRole('listitem')).toHaveTextContent('Sophie')
+    expect(loadState().tasks[0].assignee).toBe('Sophie')
+
+    await user.click(screen.getByRole('button', { name: '«Einkaufen» delegieren' }))
+    await user.click(screen.getByRole('button', { name: 'Phil' }))
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
+    expect(screen.getByRole('listitem')).toHaveTextContent('Phil')
+    expect(screen.getByRole('listitem')).not.toHaveTextContent('Sophie')
+
+    unmount()
+    render(<App />)
+    expect(screen.getByRole('listitem')).toHaveTextContent('Phil')
+
+    await user.click(screen.getByRole('button', { name: 'Zuordnung «Phil» entfernen' }))
+    await waitFor(() => expect(screen.getByRole('listitem')).not.toHaveTextContent('Phil'))
+    expect(loadState().tasks[0].assignee).toBeNull()
+  })
+
+  it('leaves the assignment unchanged when cancelled with Escape', async () => {
+    const user = userEvent.setup()
+    saveState({ version: CURRENT_VERSION, tasks: [{ ...task('a', 'Einkaufen'), assignee: 'Lisa' }] })
+    render(<App />)
+    await user.click(screen.getByRole('button', { name: '«Einkaufen» delegieren' }))
+    await user.keyboard('{Escape}')
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
+    expect(screen.getByRole('listitem')).toHaveTextContent('Lisa')
+    expect(loadState().tasks[0].assignee).toBe('Lisa')
   })
 })

@@ -24,8 +24,8 @@ Diese Klassen sind die einzigen erlaubten Werte für Farbe, Form und Tiefe im Ko
 | Radien               | `rounded-sm`, `rounded-md`, `rounded-lg`, `rounded-xl`, `rounded-2xl`, `rounded-full`       |
 | Schatten             | `shadow-card` (ruhig), `shadow-pop` (Hover, angehoben)                                      |
 | Schriften            | `font-heading` (Überschriften), `font-sans` (Text), `font-mono` (Zahlen, Zähler)            |
-| Eigene Effekte       | `glass` (Milchglas-Fläche), `glow` (Leuchtrand), `text-gradient` (Verlaufstext), `bg-gradient-hero` (Verlaufsfläche), `transition-look` (Übergang im Look-Tempo) |
-| Bewegung             | `ease-spring`, `ease-out-soft`, `animate-shake`, `animate-pop`, `duration-150`, `duration-300`, `duration-500` |
+| Eigene Effekte       | `glass` (Milchglas-Fläche), `glow` (Leuchtrand), `text-gradient` (Verlaufstext), `bg-gradient-hero` (Verlaufsfläche), `transition-look` (Übergang im Look-Tempo), `bubble` (hellblaue Seifenblase), `cursor-wand` (Zauberstab-Zeiger) |
+| Bewegung             | `ease-spring`, `ease-out-soft`, `animate-shake`, `animate-pop`, `animate-float`, `duration-150`, `duration-300`, `duration-500` |
 | Abstände             | nur die Tailwind-Skala: `p-2`, `p-4`, `p-6`, `gap-3`, `gap-4`, `mt-8` …                     |
 
 **Farben als Text:** `text-primary` und `text-destructive` sind in den dunklen Looks zu schwach (unter 4.5:1). Für farbigen Text nur `text-gradient`, `text-success` oder `text-foreground` nehmen. `bg-primary` und `bg-destructive` immer mit dem passenden `text-*-foreground` kombinieren.
@@ -239,7 +239,7 @@ export function readConfettiColors(): string[] {
 
 ## Gemeinsamer Teil (alle Looks)
 
-Diese Blöcke stehen einmal in `src/index.css` und gelten für alle Looks: Theme-Zuordnung, Schriften, Bewegung, Hintergrund-Animation, Fokus, reduzierte Bewegung und die eigenen Klassen (`glass`, `glow`, `text-gradient`, `bg-gradient-hero`, `transition-look`). Der vollständige Inhalt steht in docs/STACK.md unter `src/index.css`.
+Diese Blöcke stehen einmal in `src/index.css` und gelten für alle Looks: Theme-Zuordnung, Schriften, Bewegung, Hintergrund-Animation, Fokus, reduzierte Bewegung und die eigenen Klassen (`glass`, `glow`, `text-gradient`, `bg-gradient-hero`, `transition-look`, `bubble`, `cursor-wand`). Der vollständige Inhalt steht in docs/STACK.md unter `src/index.css`.
 
 ## Kontrast-Prüfung
 
@@ -382,6 +382,22 @@ Jedes Rezept nennt Klassen und Verhalten. Der Agent übernimmt sie so.
 - **Esc** leert die Eingabe und nimmt den Fokus weg. Beim Ziehen bricht Esc ab (dnd-kit macht das).
 - Fokus-Ring im Look: kommt global aus `:focus-visible` (`outline: 2px solid var(--ring)`). Nie `outline-none` ohne Ersatz.
 - Reihenfolge mit Tab: Eingabe → Plus → je Karte Checkbox → Löschen.
+
+### 10. Seifenblasen (F1 Delegieren)
+
+- Komponente `src/features/tasks/components/DelegateBubbles.tsx`, Props `title`, `origin` (Klickpunkt `{ x, y }` in px, Mitte des Zauberstab-Knopfs), `onPick(name)`, `onClose()`. Namen aus `FAMILY` in `model.ts`.
+- Ebene: `<div role="dialog" aria-modal="true" aria-label="Aufgabe delegieren" className="cursor-wand fixed inset-0 z-50 flex flex-col items-center justify-start gap-6 overflow-hidden px-4 pt-6">`. Ohne Schleier und ohne Weichzeichner: Die App bleibt normal sichtbar. Solange die Ebene offen ist, ist der Mauszeiger ein Zauberstab.
+- Kopf: kleines Schild `<p className="glass max-w-xl rounded-full border px-5 py-2 text-center font-heading text-lg text-foreground shadow-card">Wer übernimmt «{title}»?</p>` mit `break-words [overflow-wrap:anywhere]`.
+- Blasen: `<ul className="pointer-events-none absolute inset-0 overflow-hidden">`, je Name ein `<li className="absolute -ml-12 -mt-12" style={{ left: origin.x, top: origin.y }}>` (alle starten am Klickpunkt). Darin zwei Schichten: aussen `<motion.div>` für den Flug, innen `<motion.button type="button" className="bubble pointer-events-auto flex size-24 items-center justify-center rounded-full font-heading text-sm font-semibold text-foreground">` für Erscheinen, Schaukeln und Platzen. Darin `<span className="animate-float">{name}</span>`.
+- **Aussehen:** Klasse `bubble`: hellblauer Rand `rgb(125 196 255 / 0.9)`, innen leicht hellblau eingefärbt und durchscheinend, mit weissem Glanzpunkt oben links. Text `text-foreground` (Candy: Nachtblau auf Hellblau, über 10:1).
+- **Vom Klickpunkt nach aussen, zufällig und ruhig:** Die Blasen stehen in einem eigenen `<AnimatePresence>` (sonst erbt die Ebene `initial={false}` der Aufgabenliste). Bei jedem Öffnen verteilt `planFlights()` (`src/lib/bubbleFlights.ts`) sechs Richtungen rundherum (60° Abstand, zufällig gedreht und je ±15° verschoben), Startreihenfolge und Flug-Charakter zufällig auf die Namen. Starts 0.15 s auseinander.
+  - **Flug (äussere Schicht):** `flightKeyframes()` mit drei Punkten: Klickpunkt, 120 px in die Richtung (in 0.5 s, `ease: 'easeOut'`, «Reinblasen»), dann gleichmässig (`ease: 'linear'`, kein Stocken) weiter bis Bildschirmdiagonale + 200 px, dabei 30 % der Fensterhöhe nach oben. Langsam: je nach Blase 13 bis 17.5 s.
+  - **Blase (innere Schicht):** erscheint in 0.5 s von 40 % auf 100 % Grösse und blendet ein. Schaukelt seitlich (`x`, bis etwa ±40 px) und kippt leicht (`rotate`, bis ±5°) endlos hin und her (`repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut'`), jede Blase in ihrem eigenen Takt. So wirkt der Weg unregelmässig, aber fliessend.
+- **Davongeflogen:** Hat eine Blase ihr Ziel ausserhalb des Bildes erreicht (`onAnimationComplete` der äusseren Schicht), gilt sie als entwischt. Sind alle sechs entwischt, ruft die Ebene `onClose()` auf, ohne Änderung an der Aufgabe.
+- **Platzen:** Die geklickte Blase animiert zu `{ scale: 1.6, opacity: 0 }` in 0.25 s, die anderen zu `{ opacity: 0 }`. Danach `onPick(name)`. Bei reduzierter Bewegung (`useReducedMotion()`) sofort.
+- **Abbrechen:** Esc (Listener auf `window`) oder Klick auf die Ebene selbst (`event.target === event.currentTarget`) ruft `onClose()`. Keine Änderung an der Aufgabe.
+- **Tastatur:** Beim Öffnen bekommt die erste Blase den Fokus. Tab wechselt zwischen den Blasen, Enter oder Leertaste wählt.
+- **Bewegung reduzieren:** Mit `useReducedMotion()` stehen die Blasen still in einer Reihe (`<ul className="flex max-w-xl flex-wrap justify-center gap-4">`, ohne `absolute`) im unteren Drittel, steigen nicht und entwischen nicht. `animate-float` steht still.
 
 ---
 
