@@ -645,48 +645,48 @@ describe('App', () => {
    ========================================================================== */
 [data-look='candy'] {
   color-scheme: light;
-  --radius: 1.5rem;
+  --radius: 0.375rem;
 
-  --background: #fff6fb;
-  --foreground: #3a1748;
+  --background: #fff8f1;
+  --foreground: #1e2a47;
   --card: rgb(255 255 255 / 0.88);
-  --card-foreground: #3a1748;
+  --card-foreground: #1e2a47;
   --popover: #ffffff;
-  --popover-foreground: #3a1748;
-  --primary: #d6247e;
+  --popover-foreground: #1e2a47;
+  --primary: #c2410c;
   --primary-foreground: #ffffff;
-  --secondary: #fff1a8;
-  --secondary-foreground: #3a1748;
-  --muted: #fbe7f3;
-  --muted-foreground: #75507f;
-  --accent: #9ef0cf;
-  --accent-foreground: #3a1748;
+  --secondary: #ffe6cc;
+  --secondary-foreground: #1e2a47;
+  --muted: #fdeedd;
+  --muted-foreground: #55607d;
+  --accent: #c6f0c8;
+  --accent-foreground: #17703f;
   --destructive: #c8213f;
   --destructive-foreground: #ffffff;
-  --success: #0a6249;
-  --border: #f3c6e0;
-  --input: #ebb4d4;
-  --ring: #9333ea;
-  --chart-1: #d6247e;
-  --chart-2: #9ef0cf;
-  --chart-3: #fff1a8;
-  --chart-4: #dcc6ff;
-  --chart-5: #ff9ecd;
+  --success: #17703f;
+  --border: #ffdcbc;
+  --input: #f6c9a0;
+  --ring: #c2410c;
+  --chart-1: #c2410c;
+  --chart-2: #c6f0c8;
+  --chart-3: #ffd4a8;
+  --chart-4: #8fd694;
+  --chart-5: #17703f;
 
-  --gradient-hero: linear-gradient(100deg, #a3105a 0%, #7322b8 50%, #0a6249 100%);
-  --gradient-card: linear-gradient(145deg, #ffffff 0%, #fff4fa 100%);
+  --gradient-hero: linear-gradient(100deg, #b13f0a 0%, #b13f0a 100%);
+  --gradient-card: linear-gradient(145deg, #ffffff 0%, #fffaf4 100%);
   --gradient-mesh:
-    radial-gradient(40% 50% at 15% 15%, rgb(255 158 205 / 0.55) 0%, transparent 70%),
-    radial-gradient(45% 55% at 85% 10%, rgb(255 241 168 / 0.70) 0%, transparent 70%),
-    radial-gradient(50% 60% at 80% 85%, rgb(158 240 207 / 0.55) 0%, transparent 70%),
-    radial-gradient(55% 60% at 10% 90%, rgb(220 198 255 / 0.55) 0%, transparent 70%);
-  --glow: 0 0 0 3px #ffffff, 0 0 0 6px rgb(214 36 126 / 0.45);
-  --confetti: #ff9ecd, #fff1a8, #9ef0cf, #dcc6ff, #d6247e;
+    radial-gradient(40% 50% at 15% 15%, rgb(255 212 168 / 0.70) 0%, transparent 70%),
+    radial-gradient(45% 55% at 85% 10%, rgb(198 240 200 / 0.70) 0%, transparent 70%),
+    radial-gradient(50% 60% at 80% 85%, rgb(198 240 200 / 0.60) 0%, transparent 70%),
+    radial-gradient(55% 60% at 10% 90%, rgb(255 212 168 / 0.55) 0%, transparent 70%);
+  --glow: 0 0 0 3px #ffffff, 0 0 0 6px rgb(194 65 12 / 0.45);
+  --confetti: #ffd4a8, #c6f0c8, #8fd694, #ffb27a, #c2410c;
 
-  --font-heading: 'Fredoka Variable', ui-rounded, system-ui, sans-serif;
-  --font-sans: 'Nunito Variable', ui-rounded, system-ui, sans-serif;
-  --shadow-card: 0 6px 0 0 #f3c6e0, 0 14px 28px -10px rgb(214 36 126 / 0.30);
-  --shadow-pop: 0 8px 0 0 #9ef0cf, 0 22px 40px -12px rgb(115 34 184 / 0.35);
+  --font-heading: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --shadow-card: 0 6px 0 0 #ffdcbc, 0 14px 28px -10px rgb(194 65 12 / 0.25);
+  --shadow-pop: 0 8px 0 0 #c6f0c8, 0 22px 40px -12px rgb(23 112 63 / 0.30);
   --blur-glass: 8px;
   --ease-spring: cubic-bezier(0.3, 1.8, 0.5, 1);
 

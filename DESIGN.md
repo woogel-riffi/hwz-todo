@@ -105,11 +105,11 @@ export function readConfettiColors(): string[] {
 
 ## Look 2: Candy
 
-**Charakter:** Helle Pastelltöne wie Bubblegum, Zitrone, Mint und Flieder. Dicke runde Formen, farbige «Bonbon»-Schatten und Überschriften mit Charakter machen gute Laune.
+**Charakter:** Helle Pastelltöne in Orange und Grün auf warmem Creme, Text in Nachtblau. Sanft gerundete Ecken (keine ganz runden Formen), farbige «Bonbon»-Schatten und ein einfarbiger Titel in dunklem Orange machen gute Laune.
 
-**Schriften:** Überschrift `Fredoka Variable` (rund, verspielt), Text `Nunito Variable` (rund, freundlich). Paket: `@fontsource-variable/fredoka`, `@fontsource-variable/nunito`.
+**Schriften:** Überschrift und Text `Space Grotesk Variable` (klar, leicht technisch). Paket: `@fontsource-variable/space-grotesk`.
 
-**Hintergrund:** Vier Pastell-Flecken (Rosa, Zitrone, Mint, Flieder) als `radial-gradient`, weichgezeichnet und langsam bewegt. Bei reduzierter Bewegung steht er still.
+**Hintergrund:** Vier Pastell-Flecken (zwei Orange, zwei Grün) als `radial-gradient`, weichgezeichnet und langsam bewegt. Bei reduzierter Bewegung steht er still.
 
 **Typische Klassen:** Karten `glass rounded-2xl border-2 shadow-card`, Hover `hover:-translate-y-1 hover:rotate-[-0.5deg] hover:shadow-pop`. (Die Drehung ist die einzige erlaubte Ausnahme mit `[…]`, nur in Candy.)
 
@@ -119,48 +119,48 @@ export function readConfettiColors(): string[] {
    ========================================================================== */
 [data-look='candy'] {
   color-scheme: light;
-  --radius: 1.5rem;
+  --radius: 0.375rem;
 
-  --background: #fff6fb;
-  --foreground: #3a1748;
+  --background: #fff8f1;
+  --foreground: #1e2a47;
   --card: rgb(255 255 255 / 0.88);
-  --card-foreground: #3a1748;
+  --card-foreground: #1e2a47;
   --popover: #ffffff;
-  --popover-foreground: #3a1748;
-  --primary: #d6247e;
+  --popover-foreground: #1e2a47;
+  --primary: #c2410c;
   --primary-foreground: #ffffff;
-  --secondary: #fff1a8;
-  --secondary-foreground: #3a1748;
-  --muted: #fbe7f3;
-  --muted-foreground: #75507f;
-  --accent: #9ef0cf;
-  --accent-foreground: #3a1748;
+  --secondary: #ffe6cc;
+  --secondary-foreground: #1e2a47;
+  --muted: #fdeedd;
+  --muted-foreground: #55607d;
+  --accent: #c6f0c8;
+  --accent-foreground: #17703f;
   --destructive: #c8213f;
   --destructive-foreground: #ffffff;
-  --success: #0a6249;
-  --border: #f3c6e0;
-  --input: #ebb4d4;
-  --ring: #9333ea;
-  --chart-1: #d6247e;
-  --chart-2: #9ef0cf;
-  --chart-3: #fff1a8;
-  --chart-4: #dcc6ff;
-  --chart-5: #ff9ecd;
+  --success: #17703f;
+  --border: #ffdcbc;
+  --input: #f6c9a0;
+  --ring: #c2410c;
+  --chart-1: #c2410c;
+  --chart-2: #c6f0c8;
+  --chart-3: #ffd4a8;
+  --chart-4: #8fd694;
+  --chart-5: #17703f;
 
-  --gradient-hero: linear-gradient(100deg, #a3105a 0%, #7322b8 50%, #0a6249 100%);
-  --gradient-card: linear-gradient(145deg, #ffffff 0%, #fff4fa 100%);
+  --gradient-hero: linear-gradient(100deg, #b13f0a 0%, #b13f0a 100%);
+  --gradient-card: linear-gradient(145deg, #ffffff 0%, #fffaf4 100%);
   --gradient-mesh:
-    radial-gradient(40% 50% at 15% 15%, rgb(255 158 205 / 0.55) 0%, transparent 70%),
-    radial-gradient(45% 55% at 85% 10%, rgb(255 241 168 / 0.70) 0%, transparent 70%),
-    radial-gradient(50% 60% at 80% 85%, rgb(158 240 207 / 0.55) 0%, transparent 70%),
-    radial-gradient(55% 60% at 10% 90%, rgb(220 198 255 / 0.55) 0%, transparent 70%);
-  --glow: 0 0 0 3px #ffffff, 0 0 0 6px rgb(214 36 126 / 0.45);
-  --confetti: #ff9ecd, #fff1a8, #9ef0cf, #dcc6ff, #d6247e;
+    radial-gradient(40% 50% at 15% 15%, rgb(255 212 168 / 0.70) 0%, transparent 70%),
+    radial-gradient(45% 55% at 85% 10%, rgb(198 240 200 / 0.70) 0%, transparent 70%),
+    radial-gradient(50% 60% at 80% 85%, rgb(198 240 200 / 0.60) 0%, transparent 70%),
+    radial-gradient(55% 60% at 10% 90%, rgb(255 212 168 / 0.55) 0%, transparent 70%);
+  --glow: 0 0 0 3px #ffffff, 0 0 0 6px rgb(194 65 12 / 0.45);
+  --confetti: #ffd4a8, #c6f0c8, #8fd694, #ffb27a, #c2410c;
 
-  --font-heading: 'Fredoka Variable', ui-rounded, system-ui, sans-serif;
-  --font-sans: 'Nunito Variable', ui-rounded, system-ui, sans-serif;
-  --shadow-card: 0 6px 0 0 #f3c6e0, 0 14px 28px -10px rgb(214 36 126 / 0.30);
-  --shadow-pop: 0 8px 0 0 #9ef0cf, 0 22px 40px -12px rgb(115 34 184 / 0.35);
+  --font-heading: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --shadow-card: 0 6px 0 0 #ffdcbc, 0 14px 28px -10px rgb(194 65 12 / 0.25);
+  --shadow-pop: 0 8px 0 0 #c6f0c8, 0 22px 40px -12px rgb(23 112 63 / 0.30);
   --blur-glass: 8px;
   --ease-spring: cubic-bezier(0.3, 1.8, 0.5, 1);
 
@@ -256,15 +256,17 @@ Gerechnet nach WCAG 2.2 (relative Leuchtdichte). Halbtransparente Flächen sind 
 | Aurora | Verlaufstext #c4b5fd / Verlaufsstelle | `#c4b5fd` | `#18555b` | 4.6:1 | ja |
 | Aurora | Verlaufstext #2fe0c2 / Verlaufsstelle | `#2fe0c2` | `#18555b` | 5.0:1 | ja |
 | Aurora | Verlaufstext #f0abfc / Verlaufsstelle | `#f0abfc` | `#18555b` | 4.8:1 | ja |
-| Candy | Text / Hintergrund | `#3a1748` | `#fff6fb` | 14.2:1 | ja |
-| Candy | Text / hellste Verlaufsstelle | `#3a1748` | `#ecdcfd` | 11.6:1 | ja |
-| Candy | Text / Karte (über Verlauf) | `#3a1748` | `#fdfbff` | 14.6:1 | ja |
-| Candy | Nebentext / Hintergrund | `#75507f` | `#fff6fb` | 6.2:1 | ja |
-| Candy | Nebentext / Karte | `#75507f` | `#fdfbff` | 6.4:1 | ja |
-| Candy | Primärknopf | `#ffffff` | `#d6247e` | 4.8:1 | ja |
-| Candy | Verlaufstext #a3105a / Verlaufsstelle | `#a3105a` | `#ecdcfd` | 5.8:1 | ja |
-| Candy | Verlaufstext #7322b8 / Verlaufsstelle | `#7322b8` | `#ecdcfd` | 6.1:1 | ja |
-| Candy | Verlaufstext #0a6249 / Verlaufsstelle | `#0a6249` | `#ecdcfd` | 5.7:1 | ja |
+| Candy | Text / Hintergrund | `#1e2a47` | `#fff8f1` | 13.5:1 | ja |
+| Candy | Text / Fleck Grün | `#1e2a47` | `#d7f2d4` | 11.9:1 | ja |
+| Candy | Text / Fleck Orange | `#1e2a47` | `#ffdfbe` | 11.2:1 | ja |
+| Candy | Text / Karte (über Verlauf) | `#1e2a47` | `#fafdfa` | 13.9:1 | ja |
+| Candy | Nebentext / Hintergrund | `#55607d` | `#fff8f1` | 5.9:1 | ja |
+| Candy | Nebentext / Karte | `#55607d` | `#fafdfa` | 6.1:1 | ja |
+| Candy | Nebentext / Fleck Grün | `#55607d` | `#d7f2d4` | 5.2:1 | ja |
+| Candy | Primärknopf | `#ffffff` | `#c2410c` | 5.2:1 | ja |
+| Candy | Häkchen / Akzent | `#17703f` | `#c6f0c8` | 4.9:1 | ja |
+| Candy | Titel #b13f0a / Hintergrund | `#b13f0a` | `#fff8f1` | 5.6:1 | ja |
+| Candy | Titel #b13f0a / Fleck Orange | `#b13f0a` | `#ffdfbe` | 4.6:1 | ja |
 | Neon | Text / Hintergrund | `#e6fbff` | `#07060f` | 18.8:1 | ja |
 | Neon | Text / hellste Verlaufsstelle | `#e6fbff` | `#3e123b` | 14.5:1 | ja |
 | Neon | Text / Karte (über Verlauf) | `#e6fbff` | `#1c1028` | 17.0:1 | ja |
@@ -275,7 +277,7 @@ Gerechnet nach WCAG 2.2 (relative Leuchtdichte). Halbtransparente Flächen sind 
 | Neon | Verlaufstext #ff3dd8 / Verlaufsstelle | `#ff3dd8` | `#3e123b` | 5.1:1 | ja |
 | Neon | Verlaufstext #b4ff39 / Verlaufsstelle | `#b4ff39` | `#3e123b` | 12.8:1 | ja |
 
-Nicht als Textfarbe zugelassen (nur als Fläche mit eigenem `*-foreground`): Aurora `#6d4cf0` (3.6:1) und `#d9264f` (4.0:1), Candy `#d6247e` (4.5:1, knapp), Neon `#e0244e` (4.4:1).
+Nicht als Textfarbe zugelassen (nur als Fläche mit eigenem `*-foreground`): Aurora `#6d4cf0` (3.6:1) und `#d9264f` (4.0:1), Candy `#c2410c` (4.9:1, nur als Fläche), Neon `#e0244e` (4.4:1).
 
 ---
 
